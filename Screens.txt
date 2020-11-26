@@ -1,0 +1,7 @@
+#Lines with '#' will be ignored and assumed to be comments.
+#ParetoSmith assumes a specific order for the attributes of the game. Do not edit the order of these files.
+#---------------------------------------------------------------------------------------------------------#
+#MASTER-LIST OF ALL SCREENS#
+#location on overworld<required single space>fileName
+0 0 start.txt
+1 0 cabin.txt

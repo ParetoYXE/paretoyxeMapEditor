@@ -1,0 +1,6 @@
+#Lines with '#' will be ignored and assumed to be comments.
+#ParetoSmith assumes a specific order for the attributes of the game. Do not edit the order of these files.
+#---------------------------------------------------------------------------------------------------------#
+#MASTER-LIST OF LEGEND. MAPS IMAGES TO TILE VALUES#
+#tile value<required single space>fileName
+1 Tree.png
