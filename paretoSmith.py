@@ -104,7 +104,7 @@ while not quit:
 
 	
 	print(Region)
-	gameDisplay.fill([97,107,44])
+	gameDisplay.fill([252,216,168])
 	renderMap()
 	pygame.display.update()
 	clock.tick(60)

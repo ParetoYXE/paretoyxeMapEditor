@@ -4,5 +4,6 @@
 #MASTER-LIST OF LEGEND. MAPS IMAGES TO TILE VALUES#
 # 0 is reserved for blank space on the map. Do not use#
 #tile value<required single space>fileName#
-1 Tree.png
-2 house.png
+1 zeldaGreen.png
+2 zeldaGreen2.png
+3 zeldaTree.png
