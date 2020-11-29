@@ -21,6 +21,7 @@ quit = False
 
 
 Region = 0
+prevRegion = 0
 OverWorldHeight = 8
 OverWorldWidth = 16
 regionWidth = 16
@@ -28,7 +29,8 @@ regionHeight = 11
 Legend = {}
 Images = {}
 Screens = []
-
+screenTransition = False
+backGroundColor = [252,216,168]
 for i in range(OverWorldWidth*OverWorldHeight):
 	Screens.append([])
 
@@ -65,18 +67,53 @@ def loadScreens():
 
 
 def renderMap():
+	global screenTransition
 	tileX = round(w / regionWidth)
 	tileY = round(h / regionHeight)
 	xPos = 0
 	yPos = 0
 
-	for i in Screens[Region]:
-		for j in i:
-			if(j != '0'):
-				gameDisplay.blit(pygame.transform.scale(Images[j],(tileX,tileY)),(xPos,yPos))
-			xPos+=tileX	
-		yPos+=tileY
-		xPos = 0
+	map = []
+	map2 = []
+	if(screenTransition):
+		for i in Screens[Region]:
+			for j in i:
+				map.append(j)
+		count = 0
+
+
+		for i in range(0,regionWidth):
+			for j in range(0,regionHeight):
+				tile = map[j*16+i]
+				if(tile != '0'):
+					gameDisplay.blit(pygame.transform.scale(Images[tile],(tileX,tileY)),(xPos,yPos))
+				elif(tile == '0'):
+					pygame.draw.rect(gameDisplay, backGroundColor, pygame.Rect(xPos,yPos, tileX, tileY)) 
+				yPos+=tileY
+			pygame.time.wait(10)
+			pygame.display.update()	
+			xPos+=tileX
+			yPos = 0
+
+		screenTransition = False
+	else:
+		for i in Screens[Region]:
+			for j in i:
+				map.append(j)
+
+		count = 0
+
+		for i in range(0,regionWidth):
+			for j in range(0,regionHeight):
+				tile = map[j*16+i]
+				if(tile != '0'):
+					gameDisplay.blit(pygame.transform.scale(Images[tile],(tileX,tileY)),(xPos,yPos))
+				elif(tile == '0'):
+					pygame.draw.rect(gameDisplay, backGroundColor, pygame.Rect(xPos,yPos, tileX, tileY)) 
+				yPos+=tileY
+			xPos+=tileX
+			yPos = 0
+
 
 
 loadLegend()
@@ -92,19 +129,28 @@ while not quit:
 			if event.key == pygame.K_ESCAPE:
 				quit = True
 			if event.key == pygame.K_d:
+				screenTransition = True
+				prevRegion = Region
 				Region+=1
 			if event.key == pygame.K_a:
+				screenTransition = True
+				prevRegion = Region
 				Region-=1
 			if event.key == pygame.K_s:
+				screenTransition = True
+				prevRegion = Region
 				Region+=16
 			if event.key == pygame.K_w:
+				screenTransition = True
+				prevRegion = Region
 				Region-=16
 
 
 
 	
 	print(Region)
-	gameDisplay.fill([252,216,168])
+	if(not screenTransition):
+		gameDisplay.fill(backGroundColor)
 	renderMap()
 	pygame.display.update()
 	clock.tick(60)
