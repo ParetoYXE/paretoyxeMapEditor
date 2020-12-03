@@ -82,7 +82,7 @@ def renderMap():
 
 loadLegend()
 loadScreens()
-playerObject.playerInit(1,1,tileX,tileY)
+playerObject.playerInit(0,0,tileX,tileY)
 while not quit:
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
@@ -107,7 +107,7 @@ while not quit:
 	print(Region)
 	gameDisplay.fill([252,216,168])
 	renderMap()
-	playerObject.renderPlayer(gameDisplay,tileX,tileY)
+	playerObject.renderPlayer(gameDisplay)
 	pygame.display.update()
 	clock.tick(60)
 

@@ -10,7 +10,8 @@ import pygame
 player = {"xLocation":1,"yLocation":1,"tileX":1,"tileY":1}
 playerImage = ''
 
-def playerInit(xlocation,yLocation,tileX,tileY):
+def playerInit(xLocation,yLocation,tileX,tileY):
+	global playerImage
 	player["xLocation"] = xLocation
 	player["yLocation"] = yLocation
 	player["tileX"] = tileX
@@ -20,4 +21,4 @@ def playerInit(xlocation,yLocation,tileX,tileY):
 
 
 def renderPlayer(gameSurface):
-	gameSurface.blit(playerImage,(player["xLocation"]*tileX,player["yLocation"]*tileY))
+	gameSurface.blit(playerImage,(player["xLocation"]*player["tileX"],player["yLocation"]*player["tileY"]))
