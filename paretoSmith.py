@@ -1,4 +1,4 @@
-import random,pygame
+import random,pygame,json
 import player as playerObject
 
 
@@ -31,12 +31,46 @@ tileY = round(h / regionHeight)
 Legend = {}
 Images = {}
 Screens = []
+mobs = {}
+localMobs = [] 
+overWorldMode = False
+
+
 
 for i in range(OverWorldWidth*OverWorldHeight):
 	Screens.append([])
+	localMobs.append([])
 
 
+def loadMobs():
+	file1 = open("mobs.txt",'r')
+	Lines =  file1.readlines()
+	for i in Lines: 
+		if(i[0]!='#'):
+			arr = i.split()
+			mobs[arr[0]] = eval(arr[1])
+	print(mobs)
 
+def loadLocalMobs():
+	global OverWorldWidth
+	file1 = open('masterMobs.txt', 'r') 
+	Lines = file1.readlines() 
+	for line in Lines: 
+		if(line[0]!="#"):
+			arr = line.split()
+			name = str(arr[0])
+			coorX = int(arr[1])
+			coorY = int(arr[2])
+			tileX = int(arr[3])
+			tileY = int(arr[4])
+			region = coorY*OverWorldWidth+coorX
+			temp = localMobs[region]
+			temp.append({'name':name,'coorX':coorX,'coorY':coorY,'tileX':tileX,'tileY':tileY})
+			image = pygame.image.load(mobs[name]['image'])
+			Images.update({name:image})
+			localMobs[region] = temp
+
+	print(localMobs)
 def loadLegend():
 	file1 = open("Legend.txt",'r')
 	Lines =  file1.readlines()
@@ -66,6 +100,10 @@ def loadScreens():
 					i = i.split()
 					Screens[coorY*OverWorldWidth+coorX].append(i)
 
+def renderMobs():
+	for i in localMobs[Region]:
+		mob = mobs[i['name']]
+		gameDisplay.blit(pygame.transform.scale(Images[i["name"]],(round(mob['tileX']*tileX),round(mob['tileY']*tileY))),(i["tileX"]*tileX,i["tileY"]*tileY))
 
 def renderMap():
 	xPos = 0
@@ -79,9 +117,10 @@ def renderMap():
 		yPos+=tileY
 		xPos = 0
 
-
+loadMobs()
 loadLegend()
 loadScreens()
+loadLocalMobs()
 playerObject.playerInit(0,0,tileX,tileY)
 while not quit:
 	for event in pygame.event.get():
@@ -93,20 +132,32 @@ while not quit:
 			if event.key == pygame.K_ESCAPE:
 				quit = True
 			if event.key == pygame.K_d:
-				Region+=1
+				if(not overWorldMode):
+					playerObject.playerMovement("right")
+				else:
+					Region+=1
 			if event.key == pygame.K_a:
-				Region-=1
+				if(not overWorldMode):
+					playerObject.playerMovement("left")
+				else:
+					Region-=1
 			if event.key == pygame.K_s:
-				Region+=16
+				if(not overWorldMode):
+					playerObject.playerMovement("down")
+				else:
+					Region+=16
 			if event.key == pygame.K_w:
-				Region-=16
+				if(not overWorldMode):
+					playerObject.playerMovement("up")
+				else:
+					Region-=16
+			if event.key == pygame.K_LSHIFT:
+				overWorldMode = not overWorldMode
 
 
-
-	
-	print(Region)
 	gameDisplay.fill([252,216,168])
 	renderMap()
+	renderMobs()
 	playerObject.renderPlayer(gameDisplay)
 	pygame.display.update()
 	clock.tick(60)
