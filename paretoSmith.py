@@ -1,6 +1,6 @@
 import random,pygame,json
 import player as playerObject
-
+import mobs as mobsController
 
 pygame.init()
 
@@ -105,6 +105,15 @@ def renderMobs():
 		mob = mobs[i['name']]
 		gameDisplay.blit(pygame.transform.scale(Images[i["name"]],(round(mob['tileX']*tileX),round(mob['tileY']*tileY))),(i["tileX"]*tileX,i["tileY"]*tileY))
 
+
+
+def mobAI():
+	for i in localMobs[Region]:
+		if(len(i)>0):
+			i = mobsController.mobsAI(i)
+
+		
+
 def renderMap():
 	xPos = 0
 	yPos = 0
@@ -156,6 +165,8 @@ while not quit:
 
 
 	gameDisplay.fill([252,216,168])
+	pygame.time.wait(200)
+	mobAI()
 	renderMap()
 	renderMobs()
 	playerObject.renderPlayer(gameDisplay)
