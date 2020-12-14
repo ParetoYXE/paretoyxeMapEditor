@@ -2,6 +2,6 @@
 #ParetoSmith assumes a specific order for the attributes of the game. Do not edit the order of these files.#
 #---------------------------------------------------------------------------------------------------------#
 #MASTER-LIST OF MOBS. MAPS ATTRIBUTES TO MOBS THAT ARE USED TO POPULATE MAPS#
-#Attributes are dynamic but must include 'image','tileX','tileY'#
+#Attributes are dynamic but must include 'image','tileX','tileY', 'type'#
 #Name of Mob<required space>Attributes formatted as standard dict#
-oldMan {'image':'npc.png','tileX':1,'tileY':1}
+oldMan {'image':'npc.png','tileX':1,'tileY':1,'type':'approach'}

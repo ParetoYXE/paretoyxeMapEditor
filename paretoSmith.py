@@ -110,7 +110,7 @@ def renderMobs():
 def mobAI():
 	for i in localMobs[Region]:
 		if(len(i)>0):
-			i = mobsController.mobsAI(i)
+			i = mobsController.mobsAI(i,mobs)
 
 		
 
@@ -131,6 +131,9 @@ loadLegend()
 loadScreens()
 loadLocalMobs()
 playerObject.playerInit(0,0,tileX,tileY)
+
+aiTimer = 0
+
 while not quit:
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
@@ -165,8 +168,14 @@ while not quit:
 
 
 	gameDisplay.fill([252,216,168])
-	pygame.time.wait(200)
-	mobAI()
+	#pygame.time.wait(200) #Used to control time process time for AI and player actions. This should be tweaked to use a counter rather then a interupt.
+	if(aiTimer > 60):
+		aiTimer = 0
+		mobAI()
+	else:
+		aiTimer+=1
+
+	print(aiTimer)
 	renderMap()
 	renderMobs()
 	playerObject.renderPlayer(gameDisplay)
