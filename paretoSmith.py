@@ -110,10 +110,16 @@ def renderMobs():
 def mobAI():
 	for i in localMobs[Region]:
 		if(len(i)>0):
-			i = mobsController.mobsAI(i,mobs)
+			i = mobsController.mobsAI(i,mobs,Screens[Region],regionWidth)
 
 		
 
+
+def regionTransition():
+	#needs to be implemented
+	return 0
+
+	
 def renderMap():
 	xPos = 0
 	yPos = 0
@@ -130,7 +136,7 @@ loadMobs()
 loadLegend()
 loadScreens()
 loadLocalMobs()
-playerObject.playerInit(0,0,tileX,tileY)
+playerObject.playerInit(3,4,tileX,tileY)
 
 aiTimer = 0
 
@@ -145,22 +151,22 @@ while not quit:
 				quit = True
 			if event.key == pygame.K_d:
 				if(not overWorldMode):
-					playerObject.playerMovement("right")
+					playerObject.playerMovement("right",Screens[Region])
 				else:
 					Region+=1
 			if event.key == pygame.K_a:
 				if(not overWorldMode):
-					playerObject.playerMovement("left")
+					playerObject.playerMovement("left",Screens[Region])
 				else:
 					Region-=1
 			if event.key == pygame.K_s:
 				if(not overWorldMode):
-					playerObject.playerMovement("down")
+					playerObject.playerMovement("down",Screens[Region])
 				else:
 					Region+=16
 			if event.key == pygame.K_w:
 				if(not overWorldMode):
-					playerObject.playerMovement("up")
+					playerObject.playerMovement("up",Screens[Region])
 				else:
 					Region-=16
 			if event.key == pygame.K_LSHIFT:
@@ -175,7 +181,6 @@ while not quit:
 	else:
 		aiTimer+=1
 
-	print(aiTimer)
 	renderMap()
 	renderMobs()
 	playerObject.renderPlayer(gameDisplay)

@@ -23,13 +23,28 @@ def playerInit(xLocation,yLocation,tileX,tileY):
 def renderPlayer(gameSurface):
 	gameSurface.blit(playerImage,(player["xLocation"]*player["tileX"],player["yLocation"]*player["tileY"]))
 
-def playerMovement(movement):
+def playerMovement(movement,map):
 	if(movement == "right"):
 		player["xLocation"] +=1
+		if(collisionDetection(map)):
+			player["xLocation"] -=1
 	elif(movement == "left"):
 		player["xLocation"] -=1
+		if(collisionDetection(map)):
+			player["xLocation"] +=1
 	elif(movement == "up"):
 		player["yLocation"] -=1
+		if(collisionDetection(map)):
+			player["yLocation"] +=1
 	elif(movement == "down"):
 		player["yLocation"] +=1
+		if(collisionDetection(map)):
+			player["yLocation"] -=1
+
+
+def collisionDetection(map):
+	if(int(map[player["yLocation"]][player["xLocation"]]) < 1):
+		return False
+	else:
+		return True
 
