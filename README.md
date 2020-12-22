@@ -15,9 +15,9 @@ CURRENT FEATURES:
           
           -Mob Spawning
           
-More features that need implementing:
-          
           -Collision detection
+          
+More features that need implementing:
           
           -Inter-region travel
           
