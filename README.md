@@ -17,13 +17,13 @@ CURRENT FEATURES:
           
           -Collision detection
           
+          -Enemy and NPC AI (General structures as each will be specific to the game)
+          
 More features that need implementing:
           
           -Inter-region travel
           
           -Items
-          
-          -Enemy and NPC AI (General structures as each will be specific to the game)
           
           -Combat
           
