@@ -19,9 +19,11 @@ CURRENT FEATURES:
           
           -Enemy and NPC AI (General structures as each will be specific to the game)
           
+          -Inter-region travel
+          
+          
 More features that need implementing:
           
-          -Inter-region travel
           
           -Items
           
