@@ -108,16 +108,40 @@ def renderMobs():
 
 
 def mobAI():
+	global regionHeight
 	for i in localMobs[Region]:
 		if(len(i)>0):
-			i = mobsController.mobsAI(i,mobs,Screens[Region],regionWidth)
+			i = mobsController.mobsAI(i,mobs,Screens[Region],regionWidth,regionHeight)
 
 		
 
 
 def regionTransition():
-	#needs to be implemented
-	return 0
+	#print(Screens[Region])
+
+	if Screens[Region][playerObject.player["yLocation"]][playerObject.player["xLocation"]] == '9':
+		return True
+	else:
+		return False
+
+
+def regionTransitionHandler():
+	global Region
+	if(regionTransition()):
+		if(playerObject.player['direction']=='right'):
+			Region+=1
+			playerObject.player["xLocation"]-=regionWidth-2
+		elif(playerObject.player["direction"]=='left'):
+			Region-=1
+			playerObject.player["xLocation"]+=regionWidth-2
+		elif(playerObject.player["direction"]=='down'):
+			Region+=OverWorldWidth
+			playerObject.player["yLocation"]-=regionHeight-2
+		elif(playerObject.player["direction"]=='up'):
+			Region-=OverWorldWidth
+			playerObject.player["yLocation"]+=regionHeight-2
+
+
 
 	
 def renderMap():
@@ -126,7 +150,7 @@ def renderMap():
 
 	for i in Screens[Region]:
 		for j in i:
-			if(j != '0'):
+			if(j != '0' and j != '9'):
 				gameDisplay.blit(pygame.transform.scale(Images[j],(tileX,tileY)),(xPos,yPos))
 			xPos+=tileX	
 		yPos+=tileY
@@ -163,12 +187,12 @@ while not quit:
 				if(not overWorldMode):
 					playerObject.playerMovement("down",Screens[Region])
 				else:
-					Region+=16
+					Region+=OverWorldWidth
 			if event.key == pygame.K_w:
 				if(not overWorldMode):
 					playerObject.playerMovement("up",Screens[Region])
 				else:
-					Region-=16
+					Region-=OverWorldWidth
 			if event.key == pygame.K_LSHIFT:
 				overWorldMode = not overWorldMode
 
@@ -181,6 +205,7 @@ while not quit:
 	else:
 		aiTimer+=1
 
+	regionTransitionHandler()
 	renderMap()
 	renderMobs()
 	playerObject.renderPlayer(gameDisplay)

@@ -5,17 +5,22 @@ import player as playerObject
 
 map = []
 width = 0
-def mobsAI(mob,mobs,localmap,regionWidth):
+height = 0
 
-	global map, width 
+def mobsAI(mob,mobs,localmap,regionWidth,regionHeight):
+
+	global map, width, height 
 	map = localmap
 	width = regionWidth
+	height = regionHeight
 
 	print(mob)
 	if(mobs[mob["name"]]["type"]=="random"):
 		mob = randomAI(mob)
 	elif(mobs[mob["name"]]["type"]=="approach"):
 		mob = approachAI(mob)
+	elif(mobs[mob["name"]]["type"]=="stationary"):
+		mob = stationaryAI(mob)
 
 	return mob
 
@@ -27,12 +32,36 @@ def randomAI(mob):
 	xLocation = mob["tileX"]
 	yLocation = mob["tileY"]
 
-	xLocation += random.randint(-1,1)
-	yLocation += random.randint(-1,1)
+	wonder = True
+	while(wonder):
+		oldxLocation = mob["tileX"]
+		oldyLocation = mob["tileY"]
+		xLocation += random.randint(-1,1)
+		yLocation += random.randint(-1,1)
 
-	mob["tileX"] = xLocation
-	mob["tileY"] = yLocation
+		if(xLocation > width or yLocation > height):
+			print("test"+str(height))
+			mob["tileX"] = oldxLocation
+			mob["tileY"] = oldyLocation
+		else:
+			mob["tileX"] = xLocation
+			mob["tileY"] = yLocation
 
+		if(not collisionDetection(mob,map)):
+			wonder = False
+		else:
+			mob["tileX"] = oldxLocation
+			mob["tileY"] = oldyLocation
+
+
+
+	playerCollision(mob)
+	return mob
+
+
+def stationaryAI(mob):
+	if(playerCollision(mob)):
+		playerInteractionPush()
 	return mob
 
 
@@ -64,8 +93,15 @@ def approachAI(mob):
 		mob["tileX"] = xLocationOld
 		mob["tileY"] = yLocationOld 
 
+	
+	if playerCollision(mob):
+		playerInteractionPush()
 	return mob
 
+
+def playerCollision(mob):
+	if(playerObject.player["xLocation"] == mob["tileX"] and playerObject.player["yLocation"] == mob["tileY"]):
+		return True
 
 def collisionDetection(mob,map):
 
@@ -74,3 +110,10 @@ def collisionDetection(mob,map):
 		return False
 	else:
 		return True
+
+
+
+def playerInteractionPush():
+	#randomlyPushPlayer
+	playerObject.player["xLocation"] += random.randint(-1,1)
+	playerObject.player["yLocation"] += random.randint(-1,1)

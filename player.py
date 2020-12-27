@@ -7,7 +7,7 @@ import pygame
 
 
 
-player = {"xLocation":1,"yLocation":1,"tileX":1,"tileY":1}
+player = {"xLocation":1,"yLocation":1,"tileX":1,"tileY":1,'direction': ''}
 playerImage = ''
 
 def playerInit(xLocation,yLocation,tileX,tileY):
@@ -24,6 +24,7 @@ def renderPlayer(gameSurface):
 	gameSurface.blit(playerImage,(player["xLocation"]*player["tileX"],player["yLocation"]*player["tileY"]))
 
 def playerMovement(movement,map):
+	player["direction"] = movement
 	if(movement == "right"):
 		player["xLocation"] +=1
 		if(collisionDetection(map)):
@@ -43,7 +44,7 @@ def playerMovement(movement,map):
 
 
 def collisionDetection(map):
-	if(int(map[player["yLocation"]][player["xLocation"]]) < 1):
+	if(int(map[player["yLocation"]][player["xLocation"]]) < 1 or int(map[player["yLocation"]][player["xLocation"]]) == 9):
 		return False
 	else:
 		return True

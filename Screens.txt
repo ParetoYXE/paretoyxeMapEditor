@@ -5,3 +5,4 @@
 #location on overworld<required single space>fileName
 0 0 start.txt
 1 0 cabin.txt
+1 1 forest.txt
