@@ -5,3 +5,4 @@
 #Attributes are dynamic but must include 'image','tileX','tileY', 'type'#
 #Name of Mob<required space>Attributes formatted as standard dict#
 oldMan {'image':'npc.png','tileX':1,'tileY':1,'type':'random'}
+deathBush {'image':'zeldaTree.png','tileX':1,'tileY':1,'type':'stationary'}

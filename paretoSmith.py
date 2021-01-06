@@ -1,6 +1,7 @@
 import random,pygame,json
 import player as playerObject
 import mobs as mobsController
+import projectile as projectiles
 
 pygame.init()
 
@@ -106,6 +107,11 @@ def renderMobs():
 		gameDisplay.blit(pygame.transform.scale(Images[i["name"]],(round(mob['tileX']*tileX),round(mob['tileY']*tileY))),(i["tileX"]*tileX,i["tileY"]*tileY))
 
 
+def renderProjectiles():
+	localProjectiles = projectiles.projectiles
+
+	for i in localProjectiles:
+		gameDisplay.blit(pygame.transform.scale(Images[i["name"]],(round(1*tileX),round(1*tileY))),(i["x"]*tileX,i["y"]*tileY))
 
 def mobAI():
 	global regionHeight
@@ -160,6 +166,7 @@ loadMobs()
 loadLegend()
 loadScreens()
 loadLocalMobs()
+projectiles.createProjectile(0,0,[1,0],"oldMan")
 playerObject.playerInit(3,4,tileX,tileY)
 
 aiTimer = 0
@@ -201,13 +208,20 @@ while not quit:
 	#pygame.time.wait(200) #Used to control time process time for AI and player actions. This should be tweaked to use a counter rather then a interupt.
 	if(aiTimer > 60):
 		aiTimer = 0
+		projectiles.projectileVelocity()
 		mobAI()
 	else:
 		aiTimer+=1
 
+	if(playerObject.player["health"] < 1):
+		#gameOver
+		
+		quit = True
+
 	regionTransitionHandler()
 	renderMap()
 	renderMobs()
+	renderProjectiles()
 	playerObject.renderPlayer(gameDisplay)
 	pygame.display.update()
 	clock.tick(60)

@@ -7,7 +7,7 @@ import pygame
 
 
 
-player = {"xLocation":1,"yLocation":1,"tileX":1,"tileY":1,'direction': ''}
+player = {"xLocation":1,"yLocation":1,"tileX":1,"tileY":1,'direction': '', 'health':1}
 playerImage = ''
 
 def playerInit(xLocation,yLocation,tileX,tileY):

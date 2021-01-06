@@ -5,3 +5,4 @@
 #FORMAT IS AS FOLLOWS#
 #mobName<required space>location on overworldX<required space>location on overworldY<required space>xLocationScreen<required space>yLocationScreen#
 oldMan 0 0 5 5
+deathBush 0 0 5 3

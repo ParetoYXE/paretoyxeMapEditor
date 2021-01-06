@@ -1,6 +1,6 @@
 import random
 import player as playerObject
-
+import playerMobInteractions as interactions
 
 
 map = []
@@ -23,7 +23,6 @@ def mobsAI(mob,mobs,localmap,regionWidth,regionHeight):
 		mob = stationaryAI(mob)
 
 	return mob
-
 
 
 
@@ -61,7 +60,7 @@ def randomAI(mob):
 
 def stationaryAI(mob):
 	if(playerCollision(mob)):
-		playerInteractionPush()
+		interactions.damage_interaction()
 	return mob
 
 
@@ -95,7 +94,7 @@ def approachAI(mob):
 
 	
 	if playerCollision(mob):
-		playerInteractionPush()
+		pass #put interaction here
 	return mob
 
 
@@ -111,9 +110,3 @@ def collisionDetection(mob,map):
 	else:
 		return True
 
-
-
-def playerInteractionPush():
-	#randomlyPushPlayer
-	playerObject.player["xLocation"] += random.randint(-1,1)
-	playerObject.player["yLocation"] += random.randint(-1,1)
