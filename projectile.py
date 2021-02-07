@@ -8,7 +8,8 @@ projectiles = []
 
 
 def createProjectile(xLocation,yLocation,direction,name):
-	projectiles.append({"x":xLocation,"y":yLocation,"direction":direction,"name":name})
+	#projectiles.append({"x":xLocation,"y":yLocation,"direction":direction,"name":name})
+	projectiles = []
 
 
 
