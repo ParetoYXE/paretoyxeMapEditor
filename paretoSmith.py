@@ -125,7 +125,7 @@ def mobAI():
 def regionTransition():
 	#print(Screens[Region])
 
-	if Screens[Region][playerObject.player["yLocation"]][playerObject.player["xLocation"]] == '9':
+	if (playerObject.player["yLocation"] == regionHeight) or  (playerObject.player["xLocation"] == regionWidth) or ((playerObject.player["yLocation"] == 0) or  (playerObject.player["xLocation"] == 0)):
 		return True
 	else:
 		return False
