@@ -45,8 +45,11 @@ def playerMovement(movement,map):
 
 def collisionDetection(map):
 	if(player["yLocation"] < len(map) and player["xLocation"] < len(map[0])):
-		if(int(map[player["yLocation"]][player["xLocation"]]) < 1 or int(map[player["yLocation"]][player["xLocation"]]) == 9):
-			return False
+		if(isinstance(map[player["yLocation"]][player["xLocation"]], str):
+		   return True
 		else:
-			return True
+			if(int(map[player["yLocation"]][player["xLocation"]]) < 1 or int(map[player["yLocation"]][player["xLocation"]]) == 9):
+				return False
+			else:
+				return False
 
