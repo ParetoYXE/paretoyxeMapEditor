@@ -32,6 +32,10 @@ More features that need implementing:
           -Dialog
           
           -Menus
+          
+          -Interior Locations
+          
+     
    
           
       
