@@ -4,5 +4,8 @@
 #MASTER-LIST OF ALL MOBS IN LOCAL GAME. TIED TO A REGION AND A INITIAL SPAWN POINT#
 #FORMAT IS AS FOLLOWS#
 #mobName<required space>location on overworldX<required space>location on overworldY<required space>xLocationScreen<required space>yLocationScreen#
+#If a mob is located in an interior put a '$' in front followed a space. Also add a space followed by its map name.#
+#$<required space>mobName<required space>location on overworldX<required space>location overworldY<required space>xLocationScreen<required space>yLocationScreen<requiredSpace>MapName#
 oldMan 0 0 5 5
 deathBush 0 0 5 3
+$ oldMan 0 0 3 3 house.txt

@@ -2,9 +2,9 @@ c c c c c c 9 c c c c c c c c c
 c c c c c c 0 c c c c c c c c c
 c c c c c c 0 c c c c c c c c c
 c c c c c c 0 c c c c c c c c c
-c c c 0 c c 0 c 0 0 c c c 0 0 c
-c c 0 0 c c 0 c 0 0 0 0 0 0 c c
-c 0 0 0 c c 0 0 0 0 0 0 c c 0 0
+c c c c c c 0 c c c c c c c c c
+c c c c c c 0 c c c c c c c c c
+c c c c c c 0 c c c c c c c c c
 c c 0 0 c c 0 0 0 0 0 0 c c 0 0
 c c 0 0 0 0 0 0 0 0 0 0 0 c c c
 c c c c c c c c c c c c c c c c

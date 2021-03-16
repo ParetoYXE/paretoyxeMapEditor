@@ -33,14 +33,18 @@ Legend = {}
 Images = {}
 Screens = []
 mobs = {}
-localMobs = [] 
+localMobs = []
+interiorMobs = [] 
 overWorldMode = False
+interiorMode = False
+interiors = []
 
 
 
 for i in range(OverWorldWidth*OverWorldHeight):
 	Screens.append([])
 	localMobs.append([])
+	interiorMobs.append([])
 
 
 def loadMobs():
@@ -58,18 +62,34 @@ def loadLocalMobs():
 	Lines = file1.readlines() 
 	for line in Lines: 
 		if(line[0]!="#"):
-			arr = line.split()
-			name = str(arr[0])
-			coorX = int(arr[1])
-			coorY = int(arr[2])
-			tileX = int(arr[3])
-			tileY = int(arr[4])
-			region = coorY*OverWorldWidth+coorX
-			temp = localMobs[region]
-			temp.append({'name':name,'coorX':coorX,'coorY':coorY,'tileX':tileX,'tileY':tileY})
-			image = pygame.image.load(mobs[name]['image'])
-			Images.update({name:image})
-			localMobs[region] = temp
+			if(line[0]!='$'):
+				arr = line.split()
+				name = str(arr[0])
+				coorX = int(arr[1])
+				coorY = int(arr[2])
+				tileX = int(arr[3])
+				tileY = int(arr[4])
+				region = coorY*OverWorldWidth+coorX
+				temp = localMobs[region]
+				temp.append({'name':name,'coorX':coorX,'coorY':coorY,'tileX':tileX,'tileY':tileY})
+				image = pygame.image.load(mobs[name]['image'])
+				Images.update({name:image})
+				localMobs[region] = temp
+			else:
+				arr = line.split()
+				name = str(arr[1])
+				coorX = int(arr[2])
+				coorY = int(arr[3])
+				tileX = int(arr[4])
+				tileY = int(arr[5])
+				mapFile = str(arr[6])
+				region = coorY*OverWorldWidth+coorX
+				temp = interiorMobs[region]
+				temp.append({'name':name,'coorX':coorX,'coorY':coorY,'tileX':tileX,'tileY':tileY,"map":mapFile})
+				image = pygame.image.load(mobs[name]['image'])
+				Images.update({name:image})
+				interiorMobs[region] = temp
+
 
 	print(localMobs)
 def loadLegend():
@@ -101,10 +121,39 @@ def loadScreens():
 					i = i.split()
 					Screens[coorY*OverWorldWidth+coorX].append(i)
 
+
+def loadInteriors():
+	file1 = open('interiors.txt', 'r') 
+	Lines = file1.readlines() 
+	 
+
+	for line in Lines: 
+		if(line[0]!="#"):
+			arr = line.split()
+			coorX = int(arr[0])
+			coorY = int(arr[1])
+			overworldX = int(arr[2])
+			overworldY = int(arr[3])
+			interiorRegion = overworldY *OverWorldWidth+overworldX
+			mapFile = arr[4]
+			interiors.append({"x":coorX,"y":coorY,"overworldX":overworldX,"overworldY":overworldY,"mapFile":mapFile, "map":[],"region":interiorRegion})
+			with open(mapFile) as f:
+				content = f.readlines()
+				for i in content:
+					i = i.split()
+					interiors[len(interiors) - 1]["map"].append(i)
+	print(interiors)
+
+
 def renderMobs():
-	for i in localMobs[Region]:
-		mob = mobs[i['name']]
-		gameDisplay.blit(pygame.transform.scale(Images[i["name"]],(round(mob['tileX']*tileX),round(mob['tileY']*tileY))),(i["tileX"]*tileX,i["tileY"]*tileY))
+	if not interiorMode:
+		for i in localMobs[Region]:
+			mob = mobs[i['name']]
+			gameDisplay.blit(pygame.transform.scale(Images[i["name"]],(round(mob['tileX']*tileX),round(mob['tileY']*tileY))),(i["tileX"]*tileX,i["tileY"]*tileY))
+	else:
+		for i in interiorMobs[Region]:
+			mob = mobs[i['name']]
+			gameDisplay.blit(pygame.transform.scale(Images[i["name"]],(round(mob['tileX']*tileX),round(mob['tileY']*tileY))),(i["tileX"]*tileX,i["tileY"]*tileY))
 
 
 def renderProjectiles():
@@ -149,23 +198,40 @@ def regionTransitionHandler():
 
 
 
-	
+def interiorEnter():
+	global Region, interiorMode
+	for i in interiors:
+		if(playerObject.player["yLocation"] == i["y"] and  (playerObject.player["xLocation"] == i["x"]) and Region == i["region"]):
+			print("entered interior")
+			interiorMode = not interiorMode
+
 def renderMap():
+	global interiorMode
 	xPos = 0
 	yPos = 0
 
-	for i in Screens[Region]:
-		for j in i:
-			if(j != '0' and j != '9'):
-				gameDisplay.blit(pygame.transform.scale(Images[j],(tileX,tileY)),(xPos,yPos))
-			xPos+=tileX	
-		yPos+=tileY
-		xPos = 0
+	if not interiorMode:
+		for i in Screens[Region]:
+			for j in i:
+				if(j != '0' and j != '9'):
+					gameDisplay.blit(pygame.transform.scale(Images[j],(tileX,tileY)),(xPos,yPos))
+				xPos+=tileX	
+			yPos+=tileY
+			xPos = 0
+	else:
+		for i in interiors[Region]["map"]:
+			for j in i:
+				if(j != '0' and j != '9'):
+					gameDisplay.blit(pygame.transform.scale(Images[j],(tileX,tileY)),(xPos,yPos))
+				xPos+=tileX	
+			yPos+=tileY
+			xPos = 0
 
 loadMobs()
 loadLegend()
 loadScreens()
 loadLocalMobs()
+loadInteriors()
 projectiles.createProjectile(0,0,[1,0],"oldMan")
 playerObject.playerInit(3,4,tileX,tileY)
 
@@ -218,6 +284,8 @@ while not quit:
 		
 		quit = True
 
+
+	interiorEnter()
 	regionTransitionHandler()
 	renderMap()
 	renderMobs()

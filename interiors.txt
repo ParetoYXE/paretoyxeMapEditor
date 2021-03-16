@@ -1,9 +1,7 @@
 #Lines with '#' will be ignored and assumed to be comments.#
 #ParetoSmith assumes a specific order for the attributes of the game. Do not edit the order of these files.#
 #---------------------------------------------------------------------------------------------------------#
-#MASTER-LIST OF LEGEND. MAPS IMAGES TO TILE VALUES#
-# 0 is reserved for blank space on the map. Do not use#
-#tile value<required single space>fileName#
-a zeldaGreen.png
-b zeldaGreen2.png
-c zeldaTree.png
+#MASTER-LIST OF INTERIORS. CONTAINS MAPNAMES AND THERE CORRESPONDING OVERWOLRD LOCATIONS AND REGION ENTER POINTS#
+#Order of parameters is as follows. Spacing must be adheared to#
+#xRegion<space>yRegion<space>overworldX<space>overworldY<space>mapFile.txt#
+5 5 0 0 House.txt
