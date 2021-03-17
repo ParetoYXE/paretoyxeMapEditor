@@ -3,5 +3,5 @@
 #---------------------------------------------------------------------------------------------------------#
 #MASTER-LIST OF INTERIORS. CONTAINS MAPNAMES AND THERE CORRESPONDING OVERWOLRD LOCATIONS AND REGION ENTER POINTS#
 #Order of parameters is as follows. Spacing must be adheared to#
-#xRegion<space>yRegion<space>overworldX<space>overworldY<space>mapFile.txt#
-5 5 0 0 House.txt
+#xRegion<space>yRegion<space>overworldX<space>overworldY<space>interiorExitX<space>interiorExitY<space>mapFile.txt#
+5 5 0 0 0 0 House.txt

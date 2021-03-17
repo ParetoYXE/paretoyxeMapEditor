@@ -134,9 +134,11 @@ def loadInteriors():
 			coorY = int(arr[1])
 			overworldX = int(arr[2])
 			overworldY = int(arr[3])
+			interiorExitX = int(arr[4])
+			interiorExitY = int(arr[5])
 			interiorRegion = overworldY *OverWorldWidth+overworldX
-			mapFile = arr[4]
-			interiors.append({"x":coorX,"y":coorY,"overworldX":overworldX,"overworldY":overworldY,"mapFile":mapFile, "map":[],"region":interiorRegion})
+			mapFile = arr[6]
+			interiors.append({"x":coorX,"y":coorY,"overworldX":overworldX,"overworldY":overworldY, "interiorExitX":interiorExitX,"interiorExitY":interiorExitY,"mapFile":mapFile, "map":[],"region":interiorRegion})
 			with open(mapFile) as f:
 				content = f.readlines()
 				for i in content:
@@ -200,6 +202,7 @@ def regionTransitionHandler():
 
 def interiorEnter():
 	global Region, interiorMode
+	playerObject.player["interior"] = True
 	for i in interiors:
 		if(playerObject.player["yLocation"] == i["y"] and  (playerObject.player["xLocation"] == i["x"]) and Region == i["region"]):
 			print("entered interior")
@@ -269,6 +272,8 @@ while not quit:
 			if event.key == pygame.K_LSHIFT:
 				overWorldMode = not overWorldMode
 
+			interiorEnter()
+
 
 	gameDisplay.fill([252,216,168])
 	#pygame.time.wait(200) #Used to control time process time for AI and player actions. This should be tweaked to use a counter rather then a interupt.
@@ -284,8 +289,6 @@ while not quit:
 		
 		quit = True
 
-
-	interiorEnter()
 	regionTransitionHandler()
 	renderMap()
 	renderMobs()
