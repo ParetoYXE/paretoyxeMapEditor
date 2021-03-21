@@ -7,3 +7,4 @@
 a zeldaGreen.png
 b zeldaGreen2.png
 c zeldaTree.png
+d black.png

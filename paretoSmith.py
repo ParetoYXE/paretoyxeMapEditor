@@ -202,11 +202,11 @@ def regionTransitionHandler():
 
 def interiorEnter():
 	global Region, interiorMode
-	playerObject.player["interior"] = True
 	for i in interiors:
 		if(playerObject.player["yLocation"] == i["y"] and  (playerObject.player["xLocation"] == i["x"]) and Region == i["region"]):
 			print("entered interior")
 			interiorMode = not interiorMode
+			playerObject.player['interior'] = interiorMode
 
 def renderMap():
 	global interiorMode

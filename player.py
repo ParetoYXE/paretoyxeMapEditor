@@ -44,6 +44,7 @@ def playerMovement(movement,map):
 
 
 def collisionDetection(map):
+	print(player['interior'])
 	if(not player['interior']):
 		if(player["yLocation"] < len(map) and player["xLocation"] < len(map[0])):
 			if(map[player["yLocation"]][player["xLocation"]] in ['a','b','c','d','e','f']):
