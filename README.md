@@ -21,7 +21,7 @@ CURRENT FEATURES:
           
           -Inter-region travel
           
-          -Interior Locations (collision detection still needed)
+          -Interior Locations 
           
           
 More features that need implementing:
