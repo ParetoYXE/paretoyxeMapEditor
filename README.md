@@ -21,6 +21,8 @@ CURRENT FEATURES:
           
           -Inter-region travel
           
+          -Interior Locations (collision detection still needed)
+          
           
 More features that need implementing:
           
@@ -32,8 +34,7 @@ More features that need implementing:
           -Dialog
           
           -Menus
-          
-          -Interior Locations
+         
           
      
    
