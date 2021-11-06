@@ -40,6 +40,12 @@ interiorMode = False
 interiors = []
 
 
+up = False
+right = False
+down = False
+left = False
+
+
 
 for i in range(OverWorldWidth*OverWorldHeight):
 	Screens.append([])
@@ -250,43 +256,60 @@ while not quit:
 			if event.key == pygame.K_ESCAPE:
 				quit = True
 			if event.key == pygame.K_d:
-				if(not overWorldMode):
-					if(Region >= len(interiors)):
-						playerObject.playerMovement("right",Screens[Region],interiors[0]["map"])
-					else:
-						playerObject.playerMovement("right",Screens[Region],interiors[Region]["map"])
-				else:
-					Region+=1
+				right = True
 			if event.key == pygame.K_a:
-				if(not overWorldMode):
-					if(Region >= len(interiors)):
-						playerObject.playerMovement("left",Screens[Region],interiors[0]["map"])
-					else:
-						playerObject.playerMovement("left",Screens[Region],interiors[Region]["map"])
-				else:
-					Region-=1
+				left = True
 			if event.key == pygame.K_s:
-				if(not overWorldMode):
-					if(Region >= len(interiors)):
-						playerObject.playerMovement("down",Screens[Region],interiors[0]["map"])
-					else:
-						playerObject.playerMovement("down",Screens[Region],interiors[Region]["map"])
-				else:
-					Region+=OverWorldWidth
+				down = True
 			if event.key == pygame.K_w:
-				if(not overWorldMode):
-					print(Region)
-					print(len(interiors))
-					if(Region >= len(interiors)):
-						playerObject.playerMovement("up",Screens[Region],interiors[0]["map"])
-					else:
-						playerObject.playerMovement("up",Screens[Region],interiors[Region]["map"])
-				else:
-					Region-=OverWorldWidth
+				up = True
 			if event.key == pygame.K_LSHIFT:
 				overWorldMode = not overWorldMode
 
 			interiorEnter()
+		elif event.type == pygame.KEYUP:
+			if event.key == pygame.K_w:
+				up = False
+			elif event.key == pygame.K_d:
+				right = False
+			elif event.key == pygame.K_s:
+				down = False
+			elif event.key == pygame.K_a:
+				left = False
+
+	if(up):
+		if(not overWorldMode):
+			if(Region >= len(interiors)):
+				playerObject.playerMovement("up",Screens[Region],interiors[0]["map"])
+			else:
+				playerObject.playerMovement("up",Screens[Region],interiors[Region]["map"])
+		else:
+			Region-=OverWorldWidth
+
+	if(right):
+		if(not overWorldMode):
+			if(Region >= len(interiors)):
+				playerObject.playerMovement("right",Screens[Region],interiors[0]["map"])
+			else:
+				playerObject.playerMovement("right",Screens[Region],interiors[Region]["map"])
+		else:
+			Region+=1
+	if(down):
+		if(not overWorldMode):
+			if(Region >= len(interiors)):
+				playerObject.playerMovement("down",Screens[Region],interiors[0]["map"])
+			else:
+				playerObject.playerMovement("down",Screens[Region],interiors[Region]["map"])
+		else:
+			Region+=OverWorldWidth
+	if(left):
+		if(not overWorldMode):
+			if(Region >= len(interiors)):
+				playerObject.playerMovement("left",Screens[Region],interiors[0]["map"])
+			else:
+				playerObject.playerMovement("left",Screens[Region],interiors[Region]["map"])
+		else:
+			Region-=1
 
 
 	gameDisplay.fill([252,216,168])
