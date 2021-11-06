@@ -93,7 +93,7 @@ def loadLocalMobs():
 
 	print(localMobs)
 def loadLegend():
-	file1 = open("Legend.txt",'r')
+	file1 = open("legend.txt",'r')
 	Lines =  file1.readlines()
 	for i in Lines: 
 		if(i[0]!="#"):
