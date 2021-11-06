@@ -246,6 +246,9 @@ playerObject.playerInit(3,4,tileX,tileY)
 
 aiTimer = 0
 
+
+timer = pygame.time.get_ticks()
+
 while not quit:
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
@@ -277,40 +280,42 @@ while not quit:
 			elif event.key == pygame.K_a:
 				left = False
 
-	if(up):
-		if(not overWorldMode):
-			if(Region >= len(interiors)):
-				playerObject.playerMovement("up",Screens[Region],interiors[0]["map"])
-			else:
-				playerObject.playerMovement("up",Screens[Region],interiors[Region]["map"])
-		else:
-			Region-=OverWorldWidth
+	if pygame.time.get_ticks()-timer > 100:
+		timer = pygame.time.get_ticks()
 
-	if(right):
-		if(not overWorldMode):
-			if(Region >= len(interiors)):
-				playerObject.playerMovement("right",Screens[Region],interiors[0]["map"])
+		if(up):
+			if(not overWorldMode):
+				if(Region >= len(interiors)):
+					playerObject.playerMovement("up",Screens[Region],interiors[0]["map"])
+				else:
+					playerObject.playerMovement("up",Screens[Region],interiors[Region]["map"])
 			else:
-				playerObject.playerMovement("right",Screens[Region],interiors[Region]["map"])
-		else:
-			Region+=1
-	if(down):
-		if(not overWorldMode):
-			if(Region >= len(interiors)):
-				playerObject.playerMovement("down",Screens[Region],interiors[0]["map"])
-			else:
-				playerObject.playerMovement("down",Screens[Region],interiors[Region]["map"])
-		else:
-			Region+=OverWorldWidth
-	if(left):
-		if(not overWorldMode):
-			if(Region >= len(interiors)):
-				playerObject.playerMovement("left",Screens[Region],interiors[0]["map"])
-			else:
-				playerObject.playerMovement("left",Screens[Region],interiors[Region]["map"])
-		else:
-			Region-=1
+				Region-=OverWorldWidth
 
+		if(right):
+			if(not overWorldMode):
+				if(Region >= len(interiors)):
+					playerObject.playerMovement("right",Screens[Region],interiors[0]["map"])
+				else:
+					playerObject.playerMovement("right",Screens[Region],interiors[Region]["map"])
+			else:
+				Region+=1
+		if(down):
+			if(not overWorldMode):
+				if(Region >= len(interiors)):
+					playerObject.playerMovement("down",Screens[Region],interiors[0]["map"])
+				else:
+					playerObject.playerMovement("down",Screens[Region],interiors[Region]["map"])
+			else:
+				Region+=OverWorldWidth
+		if(left):
+			if(not overWorldMode):
+				if(Region >= len(interiors)):
+					playerObject.playerMovement("left",Screens[Region],interiors[0]["map"])
+				else:
+					playerObject.playerMovement("left",Screens[Region],interiors[Region]["map"])
+			else:
+				Region-=1
 
 	gameDisplay.fill([252,216,168])
 	#pygame.time.wait(200) #Used to control time process time for AI and player actions. This should be tweaked to use a counter rather then a interupt.
