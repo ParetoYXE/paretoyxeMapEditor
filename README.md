@@ -21,6 +21,8 @@ CURRENT FEATURES:
           
           -Inter-region travel
           
+          -Interiors
+          
           
 More features that need implementing:
           
