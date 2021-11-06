@@ -4,7 +4,19 @@
 #MASTER-LIST OF LEGEND. MAPS IMAGES TO TILE VALUES#
 # 0 is reserved for blank space on the map. Do not use#
 #tile value<required single space>fileName#
+1 StonePath.png
 a zeldaGreen.png
 b zeldaGreen2.png
 c zeldaTree.png
-d black.png
+d WallTest.png
+e Water.png
+f hobbitWindow.png
+g hobbitDoor.png
+h table.png
+i crops.png
+j menDoor.png
+k menRoof.png
+l brokenWall.png
+m menWindow.png
+n rock.png
+p stoneWall.png

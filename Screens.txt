@@ -3,6 +3,24 @@
 #---------------------------------------------------------------------------------------------------------#
 #MASTER-LIST OF ALL SCREENS#
 #location on overworld<required single space>fileName
-0 0 start.txt
-1 0 cabin.txt
-1 1 forest.txt
+0 0 Hobbit1.txt
+1 0 Hobbit2.txt
+0 1 Hobbit3.txt
+1 1 Hobbit4.txt
+2 0 planes1.txt
+3 0 planes2.txt
+2 1 planes3.txt
+3 1 planes4.txt
+4 0 oldForrest6.txt
+5 0 oldForrest7.txt
+4 1 oldForrest10.txt
+5 1 oldForrest11.txt
+4 -1 oldForrest3.txt
+5 -1 oldForrest4.txt
+5 -2 oldForrest1.txt
+6 0 oldForrest8.txt
+7 0 oldForrest9.txt
+6 1 oldForrest12.txt
+7 1 oldForrest13.txt
+6 -1 oldForrest5.txt
+6 -2 oldForrest2.txt

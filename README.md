@@ -21,8 +21,6 @@ CURRENT FEATURES:
           
           -Inter-region travel
           
-          -Interior Locations 
-          
           
 More features that need implementing:
           
@@ -34,9 +32,6 @@ More features that need implementing:
           -Dialog
           
           -Menus
-         
-          
-     
    
           
       
