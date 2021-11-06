@@ -47,7 +47,7 @@ def collisionDetection(map,interior):
 	print(player['interior'])
 	if(not player['interior']):
 		if(player["yLocation"] < len(map) and player["xLocation"] < len(map[0])):
-			if(map[player["yLocation"]][player["xLocation"]] in ['a','b','c','d','e','f']):
+			if(map[player["yLocation"]][player["xLocation"]] in ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']):
 			   return True
 			else:
 				if(int(map[player["yLocation"]][player["xLocation"]]) < 1 or int(map[player["yLocation"]][player["xLocation"]]) == 9):
@@ -56,7 +56,7 @@ def collisionDetection(map,interior):
 					return False
 	else:
 		if(player["yLocation"] < len(interior) and player["xLocation"] < len(interior[0])):
-			if(interior[player["yLocation"]][player["xLocation"]] in ['a','b','c','d','e','f']):
+			if(interior[player["yLocation"]][player["xLocation"]] in ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']):
 			   return True
 			else:
 				if(int(interior[player["yLocation"]][player["xLocation"]]) < 1 or int(interior[player["yLocation"]][player["xLocation"]]) == 9):
