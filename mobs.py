@@ -105,7 +105,7 @@ def playerCollision(mob):
 def collisionDetection(mob,map):
 
 	print(map[mob["tileY"]][mob["tileX"]])
-	if((map[mob["tileY"]][mob["tileX"]]) in ['a','b','c','d','e','f']):
+	if((map[mob["tileY"]][mob["tileX"]]) in ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']):
 		return True
 	else:
 		if(int(map[mob["tileY"]][mob["tileX"]]) < 1):
