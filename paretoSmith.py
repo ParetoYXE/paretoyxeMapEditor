@@ -3,10 +3,9 @@ import player as playerObject
 import mobs as mobsController
 import projectile as projectiles
 
-## TODO: Fix player movement overflow bug ##
 
-DEBUGMODE = 0	# Set outside of zero to enable debugging features
-MOBSENABLED = 0
+DEBUGMODE = 0	# Set to zero to enable debugging view
+MOBSENABLED = 1	# 0 --> Turn off mobs, 1 --> Turn on mobs
 
 pygame.init()
 
@@ -45,12 +44,15 @@ overWorldMode = False
 interiorMode = False
 interiors = []
 
-
 up = False
 right = False
 down = False
 left = False
 
+BlockMoveUp = False
+BlockMoveDown = False
+BlockMoveRight = False
+BlockMoveLeft = False
 
 
 for i in range(OverWorldWidth*OverWorldHeight):
@@ -193,18 +195,11 @@ def regionTransition():
 	else:
 		return False
 
-# Stupid hack, don't use globals like this
-BlockMoveUp = False
-BlockMoveDown = False
-BlockMoveRight = False
-BlockMoveLeft = False
-prevRegion=0
 
 def regionTransitionHandler():
-	global Region,prevRegion
+	global Region
 	global BlockMoveUp,BlockMoveDown,BlockMoveLeft,BlockMoveRight
 	if(regionTransition()):
-		prevRegion = Region
 		if(playerObject.player['direction']=='right'):
 			if Region < OverWorldWidth*OverWorldHeight:
 				Region+=1
@@ -212,14 +207,14 @@ def regionTransitionHandler():
 				BlockMoveRight=False
 			else:
 				BlockMoveRight=True
-				print("Region Transition Code 1")
+				print("Bad Region Transition Attempted on RIGHT Movement")
 		elif(playerObject.player["direction"]=='left'):
-			if Region > -128:
+			if Region > -(OverWorldWidth*OverWorldHeight):
 				Region-=1
 				playerObject.player["xLocation"]+=regionWidth-2
 				BlockMoveLeft=False
 			else:
-				print("Region Transition Code 2")
+				print("Bad Region Transition Attempted on LEFT Movement")
 				BlockMoveLeft=True
 		elif(playerObject.player["direction"]=='down'):
 			if (Region + OverWorldWidth) < OverWorldWidth*OverWorldHeight:
@@ -227,17 +222,17 @@ def regionTransitionHandler():
 				playerObject.player["yLocation"]-=regionHeight-2
 				BlockMoveDown=False
 			else:
-				print("Region Transition Code 3")
+				print("Bad Region Transition Attempted on DOWN Movement")
 				BlockMoveDown=True
 		elif(playerObject.player["direction"]=='up'):
-			if (Region - OverWorldWidth) >= -128:	#don't ask me how this negative indexing bullshit works
+			if (Region - OverWorldWidth) >= -(OverWorldWidth*OverWorldHeight):	#don't ask me how this negative indexing bullshit works
 				Region-=OverWorldWidth
 				playerObject.player["yLocation"]+=regionHeight-2
 				BlockMoveUp=False
 			# if (Region - OverWorldWidth) > 0:
 			else:
 				BlockMoveUp=True
-				print("Region Transition Code 4")
+				print("Bad Region Transition Attempted on UP Movement")
 	else:
 		BlockMoveLeft=False
 		BlockMoveRight=False
@@ -259,26 +254,22 @@ def renderMap():
 	xPos = 0
 	yPos = 0
 
-	try:
-		if not interiorMode:
-			for i in Screens[Region]:
-				for j in i:
-					if(j != '0' and j != '9'):
-						gameDisplay.blit(pygame.transform.scale(Images[j],(tileX,tileY)),(xPos,yPos))
-					xPos+=tileX	
-				yPos+=tileY
-				xPos = 0
-		else:
-			for i in interiors[Region]["map"]:
-				for j in i:
-					if(j != '0' and j != '9'):
-						gameDisplay.blit(pygame.transform.scale(Images[j],(tileX,tileY)),(xPos,yPos))
-					xPos+=tileX	
-				yPos+=tileY
-				xPos = 0
-	except:
-		print("Bullshit error occurred, Region value tried to become: " + str(Region) + " from the original: " + str(prevRegion))
-		pygame.quit()
+	if not interiorMode:
+		for i in Screens[Region]:
+			for j in i:
+				if(j != '0' and j != '9'):
+					gameDisplay.blit(pygame.transform.scale(Images[j],(tileX,tileY)),(xPos,yPos))
+				xPos+=tileX	
+			yPos+=tileY
+			xPos = 0
+	else:
+		for i in interiors[Region]["map"]:
+			for j in i:
+				if(j != '0' and j != '9'):
+					gameDisplay.blit(pygame.transform.scale(Images[j],(tileX,tileY)),(xPos,yPos))
+				xPos+=tileX	
+			yPos+=tileY
+			xPos = 0
 
 def interiorIndexCheck():
 	count =  0
@@ -291,11 +282,12 @@ def interiorIndexCheck():
 
 
 
-
-#loadMobs()
+if MOBSENABLED != 0:
+	loadMobs()
 loadLegend()
 loadScreens()
-#loadLocalMobs()
+if MOBSENABLED != 0:
+	loadLocalMobs()
 loadInteriors()
 projectiles.createProjectile(0,0,[1,0],"oldMan")
 playerObject.playerInit(3,4,tileX,tileY)
@@ -379,7 +371,8 @@ while not quit:
 
 	regionTransitionHandler()
 	renderMap()
-	#renderMobs()
+	if MOBSENABLED != 0:
+		renderMobs()
 	renderProjectiles()
 	playerObject.renderPlayer(gameDisplay)
 	pygame.display.update()
