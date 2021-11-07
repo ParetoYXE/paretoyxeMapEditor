@@ -236,6 +236,16 @@ def renderMap():
 			yPos+=tileY
 			xPos = 0
 
+def interiorIndexCheck():
+	count =  0
+	index =  0
+	for i in interiors:
+		if (i['overworldY']*OverWorldWidth+i['overworldX']) == Region:
+			index = count
+		count +=1
+	return index 
+
+
 
 
 loadMobs()
@@ -284,26 +294,26 @@ while not quit:
 
 	if pygame.time.get_ticks()-timer > 100:
 		timer = pygame.time.get_ticks()
-		print(Region)
+		interiorIndex = interiorIndexCheck()
 		if(up):
 			if(not overWorldMode):
-				playerObject.playerMovement("up",Screens[Region],interiors[0]["map"])
+				playerObject.playerMovement("up",Screens[Region],interiors[interiorIndex]["map"])
 			else:
 				Region-=OverWorldWidth
 
 		if(right):
 			if(not overWorldMode):
-				playerObject.playerMovement("right",Screens[Region],interiors[0]["map"])
+				playerObject.playerMovement("right",Screens[Region],interiors[interiorIndex]["map"])
 			else:
 				Region+=1
 		if(down):
 			if(not overWorldMode):
-				playerObject.playerMovement("down",Screens[Region],interiors[0]["map"])
+				playerObject.playerMovement("down",Screens[Region],interiors[interiorIndex]["map"])
 			else:
 				Region+=OverWorldWidth
 		if(left):
 			if(not overWorldMode):
-				playerObject.playerMovement("left",Screens[Region],interiors[0]["map"])
+				playerObject.playerMovement("left",Screens[Region],interiors[interiorIndex]["map"])
 			else:
 				Region-=1
 
