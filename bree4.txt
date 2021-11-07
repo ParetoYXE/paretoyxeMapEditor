@@ -1,0 +1,11 @@
+d d 0 0 0 0 1 0 0 0 0 0 0 0 0 p
+m d k k k 0 1 0 h h 0 h h 0 0 p
+d d d d d 0 1 0 0 0 0 0 0 0 0 p
+d m j m d 0 1 0 0 0 0 0 0 0 h p
+0 0 1 0 0 0 1 0 0 0 0 0 0 0 h p
+0 0 1 0 0 0 1 0 0 h h h 0 0 0 p
+1 1 1 1 1 1 1 0 0 0 0 0 0 0 h p
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 h p
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 p
+0 0 0 h h h 0 0 h h 0 h h 0 0 p
+p p p p p p p p p p p p p p p p
