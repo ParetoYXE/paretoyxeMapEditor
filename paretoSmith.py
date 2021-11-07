@@ -6,6 +6,7 @@ import projectile as projectiles
 ## TODO: Fix player movement overflow bug ##
 
 DEBUGMODE = 0	# Set outside of zero to enable debugging features
+MOBSENABLED = 0
 
 pygame.init()
 
@@ -197,12 +198,13 @@ BlockMoveUp = False
 BlockMoveDown = False
 BlockMoveRight = False
 BlockMoveLeft = False
+prevRegion=0
 
 def regionTransitionHandler():
-	global Region
+	global Region,prevRegion
 	global BlockMoveUp,BlockMoveDown,BlockMoveLeft,BlockMoveRight
 	if(regionTransition()):
-		
+		prevRegion = Region
 		if(playerObject.player['direction']=='right'):
 			if Region < OverWorldWidth*OverWorldHeight:
 				Region+=1
@@ -212,7 +214,7 @@ def regionTransitionHandler():
 				BlockMoveRight=True
 				print("Region Transition Code 1")
 		elif(playerObject.player["direction"]=='left'):
-			if Region > 0:
+			if Region > -128:
 				Region-=1
 				playerObject.player["xLocation"]+=regionWidth-2
 				BlockMoveLeft=False
@@ -228,10 +230,11 @@ def regionTransitionHandler():
 				print("Region Transition Code 3")
 				BlockMoveDown=True
 		elif(playerObject.player["direction"]=='up'):
-			if (Region - OverWorldWidth) > 0:
+			if (Region - OverWorldWidth) >= -128:	#don't ask me how this negative indexing bullshit works
 				Region-=OverWorldWidth
 				playerObject.player["yLocation"]+=regionHeight-2
 				BlockMoveUp=False
+			# if (Region - OverWorldWidth) > 0:
 			else:
 				BlockMoveUp=True
 				print("Region Transition Code 4")
@@ -256,22 +259,26 @@ def renderMap():
 	xPos = 0
 	yPos = 0
 
-	if not interiorMode:
-		for i in Screens[Region]:
-			for j in i:
-				if(j != '0' and j != '9'):
-					gameDisplay.blit(pygame.transform.scale(Images[j],(tileX,tileY)),(xPos,yPos))
-				xPos+=tileX	
-			yPos+=tileY
-			xPos = 0
-	else:
-		for i in interiors[Region]["map"]:
-			for j in i:
-				if(j != '0' and j != '9'):
-					gameDisplay.blit(pygame.transform.scale(Images[j],(tileX,tileY)),(xPos,yPos))
-				xPos+=tileX	
-			yPos+=tileY
-			xPos = 0
+	try:
+		if not interiorMode:
+			for i in Screens[Region]:
+				for j in i:
+					if(j != '0' and j != '9'):
+						gameDisplay.blit(pygame.transform.scale(Images[j],(tileX,tileY)),(xPos,yPos))
+					xPos+=tileX	
+				yPos+=tileY
+				xPos = 0
+		else:
+			for i in interiors[Region]["map"]:
+				for j in i:
+					if(j != '0' and j != '9'):
+						gameDisplay.blit(pygame.transform.scale(Images[j],(tileX,tileY)),(xPos,yPos))
+					xPos+=tileX	
+				yPos+=tileY
+				xPos = 0
+	except:
+		print("Bullshit error occurred, Region value tried to become: " + str(Region) + " from the original: " + str(prevRegion))
+		pygame.quit()
 
 def interiorIndexCheck():
 	count =  0
@@ -285,10 +292,10 @@ def interiorIndexCheck():
 
 
 
-loadMobs()
+#loadMobs()
 loadLegend()
 loadScreens()
-loadLocalMobs()
+#loadLocalMobs()
 loadInteriors()
 projectiles.createProjectile(0,0,[1,0],"oldMan")
 playerObject.playerInit(3,4,tileX,tileY)
@@ -372,7 +379,7 @@ while not quit:
 
 	regionTransitionHandler()
 	renderMap()
-	renderMobs()
+	#renderMobs()
 	renderProjectiles()
 	playerObject.renderPlayer(gameDisplay)
 	pygame.display.update()
