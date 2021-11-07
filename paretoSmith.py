@@ -236,6 +236,8 @@ def renderMap():
 			yPos+=tileY
 			xPos = 0
 
+
+
 loadMobs()
 loadLegend()
 loadScreens()
@@ -282,38 +284,26 @@ while not quit:
 
 	if pygame.time.get_ticks()-timer > 100:
 		timer = pygame.time.get_ticks()
-
+		print(Region)
 		if(up):
 			if(not overWorldMode):
-				if(Region >= len(interiors)):
-					playerObject.playerMovement("up",Screens[Region],interiors[0]["map"])
-				else:
-					playerObject.playerMovement("up",Screens[Region],interiors[Region]["map"])
+				playerObject.playerMovement("up",Screens[Region],interiors[0]["map"])
 			else:
 				Region-=OverWorldWidth
 
 		if(right):
 			if(not overWorldMode):
-				if(Region >= len(interiors)):
-					playerObject.playerMovement("right",Screens[Region],interiors[0]["map"])
-				else:
-					playerObject.playerMovement("right",Screens[Region],interiors[Region]["map"])
+				playerObject.playerMovement("right",Screens[Region],interiors[0]["map"])
 			else:
 				Region+=1
 		if(down):
 			if(not overWorldMode):
-				if(Region >= len(interiors)):
-					playerObject.playerMovement("down",Screens[Region],interiors[0]["map"])
-				else:
-					playerObject.playerMovement("down",Screens[Region],interiors[Region]["map"])
+				playerObject.playerMovement("down",Screens[Region],interiors[0]["map"])
 			else:
 				Region+=OverWorldWidth
 		if(left):
 			if(not overWorldMode):
-				if(Region >= len(interiors)):
-					playerObject.playerMovement("left",Screens[Region],interiors[0]["map"])
-				else:
-					playerObject.playerMovement("left",Screens[Region],interiors[Region]["map"])
+				playerObject.playerMovement("left",Screens[Region],interiors[0]["map"])
 			else:
 				Region-=1
 
