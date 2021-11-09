@@ -3,13 +3,18 @@ import player as playerObject
 import mobs as mobsController
 import projectile as projectiles
 
+
+DEBUGMODE = 0	# Set to zero to enable debugging view
+MOBSENABLED = 1	# 0 --> Turn off mobs, 1 --> Turn on mobs
+
 pygame.init()
 
 
-
-
-
-gameDisplay = pygame.display.set_mode((0,0),pygame.FULLSCREEN)
+if DEBUGMODE != 0:
+	gameDisplay = pygame.display.set_mode((0,0),pygame.FULLSCREEN)
+else:
+	gameDisplay = pygame.display.set_mode((1024,768),pygame.RESIZABLE)
+	
 pygame.display.set_caption('The DMZ')
 pygame.font.init() # you have to call this at the start, 
                    # if you want to use this module.
@@ -39,12 +44,15 @@ overWorldMode = False
 interiorMode = False
 interiors = []
 
-
 up = False
 right = False
 down = False
 left = False
 
+BlockMoveUp = False
+BlockMoveDown = False
+BlockMoveRight = False
+BlockMoveLeft = False
 
 
 for i in range(OverWorldWidth*OverWorldHeight):
@@ -60,7 +68,7 @@ def loadMobs():
 		if(i[0]!='#'):
 			arr = i.split()
 			mobs[arr[0]] = eval(arr[1])
-	print(mobs)
+	#print(mobs)
 
 def loadLocalMobs():
 	global OverWorldWidth
@@ -97,7 +105,7 @@ def loadLocalMobs():
 				interiorMobs[region] = temp
 
 
-	print(localMobs)
+	#print(localMobs)
 def loadLegend():
 	file1 = open("legend.txt",'r')
 	Lines =  file1.readlines()
@@ -150,7 +158,7 @@ def loadInteriors():
 				for i in content:
 					i = i.split()
 					interiors[len(interiors) - 1]["map"].append(i)
-	print(interiors)
+	#print(interiors)
 
 
 def renderMobs():
@@ -180,7 +188,7 @@ def mobAI():
 
 
 def regionTransition():
-	#print(Screens[Region])
+	##print(Screens[Region])
 
 	if (playerObject.player["yLocation"] == regionHeight) or  (playerObject.player["xLocation"] == regionWidth) or ((playerObject.player["yLocation"] == 0) or  (playerObject.player["xLocation"] == 0)):
 		return True
@@ -190,19 +198,46 @@ def regionTransition():
 
 def regionTransitionHandler():
 	global Region
+	global BlockMoveUp,BlockMoveDown,BlockMoveLeft,BlockMoveRight
 	if(regionTransition()):
 		if(playerObject.player['direction']=='right'):
-			Region+=1
-			playerObject.player["xLocation"]-=regionWidth-2
+			if Region < OverWorldWidth*OverWorldHeight:
+				Region+=1
+				playerObject.player["xLocation"]-=regionWidth-2
+				BlockMoveRight=False
+			else:
+				BlockMoveRight=True
+				print("Bad Region Transition Attempted on RIGHT Movement")
 		elif(playerObject.player["direction"]=='left'):
-			Region-=1
-			playerObject.player["xLocation"]+=regionWidth-2
+			if Region > -(OverWorldWidth*OverWorldHeight):
+				Region-=1
+				playerObject.player["xLocation"]+=regionWidth-2
+				BlockMoveLeft=False
+			else:
+				print("Bad Region Transition Attempted on LEFT Movement")
+				BlockMoveLeft=True
 		elif(playerObject.player["direction"]=='down'):
-			Region+=OverWorldWidth
-			playerObject.player["yLocation"]-=regionHeight-2
+			if (Region + OverWorldWidth) < OverWorldWidth*OverWorldHeight:
+				Region+=OverWorldWidth
+				playerObject.player["yLocation"]-=regionHeight-2
+				BlockMoveDown=False
+			else:
+				print("Bad Region Transition Attempted on DOWN Movement")
+				BlockMoveDown=True
 		elif(playerObject.player["direction"]=='up'):
-			Region-=OverWorldWidth
-			playerObject.player["yLocation"]+=regionHeight-2
+			if (Region - OverWorldWidth) >= -(OverWorldWidth*OverWorldHeight):	#don't ask me how this negative indexing bullshit works
+				Region-=OverWorldWidth
+				playerObject.player["yLocation"]+=regionHeight-2
+				BlockMoveUp=False
+			# if (Region - OverWorldWidth) > 0:
+			else:
+				BlockMoveUp=True
+				print("Bad Region Transition Attempted on UP Movement")
+	else:
+		BlockMoveLeft=False
+		BlockMoveRight=False
+		BlockMoveUp=False
+		BlockMoveDown=False
 
 
 
@@ -247,11 +282,12 @@ def interiorIndexCheck():
 
 
 
-
-loadMobs()
+if MOBSENABLED != 0:
+	loadMobs()
 loadLegend()
 loadScreens()
-loadLocalMobs()
+if MOBSENABLED != 0:
+	loadLocalMobs()
 loadInteriors()
 projectiles.createProjectile(0,0,[1,0],"oldMan")
 playerObject.playerInit(3,4,tileX,tileY)
@@ -293,25 +329,27 @@ while not quit:
 				left = False
 
 	if pygame.time.get_ticks()-timer > 100:
+		print("Current x position: " + str(playerObject.player["xLocation"]) + " Current y position: " + str(playerObject.player["yLocation"])
+		+ " ")
 		timer = pygame.time.get_ticks()
 		interiorIndex = interiorIndexCheck()
-		if(up):
+		if up and not BlockMoveUp:
 			if(not overWorldMode):
 				playerObject.playerMovement("up",Screens[Region],interiors[interiorIndex]["map"])
 			else:
 				Region-=OverWorldWidth
 
-		if(right):
+		if right and not BlockMoveRight:
 			if(not overWorldMode):
 				playerObject.playerMovement("right",Screens[Region],interiors[interiorIndex]["map"])
 			else:
 				Region+=1
-		if(down):
+		if down and not BlockMoveDown:
 			if(not overWorldMode):
 				playerObject.playerMovement("down",Screens[Region],interiors[interiorIndex]["map"])
 			else:
 				Region+=OverWorldWidth
-		if(left):
+		if left and not BlockMoveLeft:
 			if(not overWorldMode):
 				playerObject.playerMovement("left",Screens[Region],interiors[interiorIndex]["map"])
 			else:
@@ -333,7 +371,8 @@ while not quit:
 
 	regionTransitionHandler()
 	renderMap()
-	renderMobs()
+	if MOBSENABLED != 0:
+		renderMobs()
 	renderProjectiles()
 	playerObject.renderPlayer(gameDisplay)
 	pygame.display.update()

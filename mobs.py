@@ -14,7 +14,7 @@ def mobsAI(mob,mobs,localmap,regionWidth,regionHeight):
 	width = regionWidth
 	height = regionHeight
 
-	print(mob)
+	#print(mob)
 	if(mobs[mob["name"]]["type"]=="random"):
 		mob = randomAI(mob)
 	elif(mobs[mob["name"]]["type"]=="approach"):
@@ -39,7 +39,7 @@ def randomAI(mob):
 		yLocation += random.randint(-1,1)
 
 		if(xLocation > width or yLocation > height):
-			print("test"+str(height))
+			#print("test"+str(height))
 			mob["tileX"] = oldxLocation
 			mob["tileY"] = oldyLocation
 		else:
@@ -104,7 +104,7 @@ def playerCollision(mob):
 
 def collisionDetection(mob,map):
 
-	print(map[mob["tileY"]][mob["tileX"]])
+	#print(map[mob["tileY"]][mob["tileX"]])
 	if((map[mob["tileY"]][mob["tileX"]]) in ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']):
 		return True
 	else:
