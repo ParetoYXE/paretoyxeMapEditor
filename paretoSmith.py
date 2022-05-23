@@ -245,9 +245,19 @@ def interiorEnter():
 	global Region, interiorMode
 	for i in interiors:
 		if(playerObject.player["yLocation"] == i["y"] and  (playerObject.player["xLocation"] == i["x"]) and Region == i["region"]):
-			print("entered interior")
-			interiorMode = not interiorMode
-			playerObject.player['interior'] = interiorMode
+			if interiorMode == False:
+					print("entered interior")
+					print(i['interiorExitX'])
+					interiorMode = not interiorMode
+					playerObject.player['interior'] = interiorMode
+					playerObject.player['xLocation'] = i['interiorExitX']
+					playerObject.player['yLocation'] = i['interiorExitY'] 
+		if interiorMode == True:
+			if(playerObject.player["yLocation"] == i["interiorExitY"] and  (playerObject.player["xLocation"] == i["interiorExitX"]) and Region == i["region"]):
+				print('exited interior')
+				interiorMode = False
+				playerObject.player['x'] = i['x']
+				playerObject.player['y'] = i['y']
 
 def renderMap():
 	global interiorMode
@@ -278,7 +288,11 @@ def interiorIndexCheck():
 		if (i['overworldY']*OverWorldWidth+i['overworldX']) == Region:
 			index = count
 		count +=1
-	return index 
+	return index
+
+
+def userInteraction(x,y):
+	print(x)
 
 
 
@@ -302,7 +316,8 @@ while not quit:
 		if event.type == pygame.QUIT:
 			quit = True
 		elif event.type == pygame.MOUSEBUTTONDOWN:
-			playerAttack = True
+			x, y = pygame.mouse.get_pos()
+			userInteraction(x,y)
 		elif event.type == pygame.KEYDOWN:
 			if event.key == pygame.K_ESCAPE:
 				quit = True
